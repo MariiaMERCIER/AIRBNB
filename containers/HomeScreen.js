@@ -29,18 +29,18 @@ export default function HomeScreen() {
   }, []);
 
   return isLoading ? (
-    <View>
+    <View style={styles.loading}>
       <ActivityIndicator size="large" color="#FF5A5F" />
     </View>
   ) : (
-    <View>
+    <View style={{ paddingHorizontal: 15, backgroundColor: "white" }}>
       <FlatList
         data={data}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => {
           return (
             <View>
-              <Image source={item.photos.url} />
+              <Image source={item.photos[0].url} style={{}} />
               <Text>{item.title}</Text>
             </View>
           );
@@ -53,6 +53,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   loading: {
     flex: 1,
-    justifycontent: "center",
+    justifyContent: "center",
   },
 });
