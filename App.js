@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -37,7 +38,6 @@ export default function App() {
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
       setUserToken(userToken);
-
       setIsLoading(false);
     };
 
@@ -86,15 +86,24 @@ export default function App() {
                   }}
                 >
                   {() => (
-                    <Stack.Navigator>
-                      <Stack.Screen
-                        name="Home"
-                        options={{
-                          title: "My App",
-                          headerStyle: { backgroundColor: "red" },
-                          headerTitleStyle: { color: "white" },
-                        }}
-                      >
+                    <Stack.Navigator
+                      screenOptions={{
+                        headerTitle: () => (
+                          <Image
+                            style={{
+                              width: 45,
+                              height: 45,
+                            }}
+                            source={require("./assets/airbnb.png")}
+                          />
+                        ),
+
+                        headerStyle: {
+                          backgroundColor: "white",
+                        },
+                      }}
+                    >
+                      <Stack.Screen name="Home">
                         {() => <HomeScreen />}
                       </Stack.Screen>
 

@@ -18,15 +18,15 @@ import Logo from "../assets/airbnb.png";
 export default function SignInScreen({ setToken }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigation = useNavigation();
 
   const handleSubmitSignin = async () => {
-    setErrorMessage(false);
+    setErrorMessage("");
     try {
       if (!email || !password) {
-        setErrorMessage(true);
+        setErrorMessage("Fill all fields!");
       } else {
         const response = await axios.post(
           "https://express-airbnb-api.herokuapp.com/user/log_in",
@@ -37,67 +37,75 @@ export default function SignInScreen({ setToken }) {
         );
 
         alert("Welcome to AirBnb!");
+        setToken(response.data.token);
         navigation.navigate("SignUp");
       }
     } catch (error) {
       console.log("cathch signIn >>", error.response);
+      setErrorMessage(error.response.status);
     }
-
-    // const userToken = "secret-token";
-    // setToken(userToken);
   };
 
   return (
-    // <KeyboardAwareScrollView>
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <View style={styles.container}>
-        <View style={{ alignItems: "center" }}>
-          <Image source={Logo} style={styles.logo} />
-          <Text style={styles.mainTitle}>Sign in</Text>
-        </View>
+    <KeyboardAwareScrollView contentContainerStyle={styles.topContainer}>
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <View style={styles.container}>
+          <View style={{ alignItems: "center" }}>
+            <Image source={Logo} style={styles.logo} />
+            <Text style={styles.mainTitle}>Sign in</Text>
+          </View>
 
-        <TextInput
-          style={styles.inputText}
-          placeholder="Email"
-          onChangeText={(text) => {
-            setName(text);
-          }}
-          value={email}
-        />
-
-        <TextInput
-          style={styles.inputText}
-          placeholder="Password"
-          password={true}
-          secureTextEntry={true}
-          onChangeText={(text) => {
-            setPassword(text);
-          }}
-          value={password}
-        />
-        {errorMessage && (
-          <Text style={{ color: "red" }}>Name or password isn't filled</Text>
-        )}
-
-        <View>
-          <TouchableOpacity style={styles.button} onPress={handleSubmitSignin}>
-            <Text style={styles.textButton}>Sign in</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("SignUp");
+          <TextInput
+            style={styles.inputText}
+            placeholder="Email"
+            onChangeText={(text) => {
+              setEmail(text);
             }}
-          >
-            <Text style={styles.textUnderButton}>Create an account</Text>
-          </TouchableOpacity>
+            value={email}
+            autoCapitalize="none"
+          />
+
+          <TextInput
+            style={styles.inputText}
+            placeholder="Password"
+            password={true}
+            secureTextEntry={true}
+            autoCapitalize="none"
+            onChangeText={(text) => {
+              setPassword(text);
+            }}
+            value={password}
+          />
+
+          <Text style={{ color: "red" }}>{errorMessage}</Text>
+
+          <View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleSubmitSignin}
+            >
+              <Text style={styles.textButton}>Sign in</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("SignUp");
+              }}
+            >
+              <Text style={styles.textUnderButton}>Create an account</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  topContainer: {
+    flex: 1,
+  },
+
   container: {
     flex: 1,
     alignItems: "center",
