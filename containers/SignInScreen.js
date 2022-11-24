@@ -77,7 +77,7 @@ export default function SignInScreen({ setToken }) {
             value={password}
           />
 
-          <Text style={{ color: "red" }}>{errorMessage}</Text>
+          <Text style={{ color: "#FF5A5F" }}>{errorMessage}</Text>
 
           <View>
             <TouchableOpacity
