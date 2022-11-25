@@ -103,19 +103,11 @@ export default function App() {
                             source={require("./assets/airbnb.png")}
                           />
                         ),
-                        // headerTitleStyle: {
-                        //   alignSelf: "center",
-                        //   textAlign: "center",
-                        //   justifyContent: "center",
-                        // },
 
-                        // headerLayoutPreset: "center",
                         headerStyle: {
                           backgroundColor: "white",
-                          alignSelf: "center",
-                          textAlign: "center",
-                          justifyContent: "center",
                         },
+                        headerTitleAlign: "center",
                       }}
                     >
                       <Stack.Screen name="Home">

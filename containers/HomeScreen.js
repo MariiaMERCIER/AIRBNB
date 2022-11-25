@@ -11,6 +11,7 @@ import {
   FlatList,
   ImageBackground,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -116,7 +117,7 @@ export default function HomeScreen() {
               </View>
               <Image
                 source={{ uri: item.user.account.photo.url }}
-                style={{ height: 60, width: 60, borderRadius: 50 }}
+                style={{ height: 50, width: 50, borderRadius: 50 }}
                 resizeMode="cover"
               />
             </View>
@@ -134,8 +135,9 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    width: 315,
     fontSize: 20,
+
+    width: Dimensions.get("window").width * 0.7,
   },
   row: {
     flexDirection: "row",
