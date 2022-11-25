@@ -45,14 +45,21 @@ export default function LocalScreen() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "https://express-airbnb-api.herokuapp.com/rooms/around"
+        `https://express-airbnb-api.herokuapp.com/rooms/around`,
+        {
+          params: {
+            latitude: latitude,
+            longitude: longitude,
+          },
+        }
       );
+      // console.log(response.data);
 
       setData(response.data);
       setIsLoading(false);
     };
     fetchData();
-  }, []);
+  }, [latitude, longitude]);
 
   return isLoading ? (
     <View style={styles.container}>
@@ -75,25 +82,24 @@ export default function LocalScreen() {
         initialRegion={{
           latitude: latitude,
           longitude: longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0921,
+          latitudeDelta: 0.2,
+          longitudeDelta: 0.2,
         }}
         style={{ width: "100%", height: "100%" }}
       >
-        {data.map((elem) => {
+        {data.map((item) => {
           return (
             <Marker
-              key={elem._id}
+              key={item._id}
               conrdinate={{
-                latitude: elem.location[0],
-                longitude: elem.location[1],
+                latitude: item.location[0],
+                longitude: item.location[1],
               }}
-              pinColor={"red"}
             >
-              <Text>{elem.price}</Text>
-              <Text>{elem.title}</Text>
+              <Text>{item.price}</Text>
+              <Text>{item.title}</Text>
               <Image
-                source={{ uri: elem.photos[0].url }}
+                source={{ uri: item.photos[0].url }}
                 style={{ width: 100, height: 100 }}
               />
             </Marker>

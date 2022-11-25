@@ -19,6 +19,7 @@ export default function RoomScreen({ route }) {
   const animation = useRef(null);
   const [room, setRoom] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [seeMore, setSeeMore] = useState(false);
   //  console.log(route.params.id);
 
   useEffect(() => {
@@ -49,6 +50,8 @@ export default function RoomScreen({ route }) {
     return starArray;
   };
 
+  // handleSeeMore = () => {};
+
   return isLoading ? (
     <View
       style={{
@@ -72,7 +75,12 @@ export default function RoomScreen({ route }) {
   ) : (
     <>
       <View style={styles.carrousel}>
-        <Swiper dotColor="grey" activeDotColor="red">
+        <Swiper
+          dotStyle={styles.dot}
+          dotColor="grey"
+          activeDotStyle={styles.dot}
+          activeDotColor="#FF5A5F"
+        >
           {room.photos.map((photo) => {
             return (
               <Image
@@ -111,7 +119,10 @@ export default function RoomScreen({ route }) {
             resizeMode="cover"
           />
         </View>
-        <TouchableOpacity onPress>
+
+        {seeMore === true ? (
+          <Text style={styles.description}>{room.description}</Text>
+        ) : (
           <Text
             style={styles.description}
             ellipsizeMode="tail"
@@ -119,6 +130,22 @@ export default function RoomScreen({ route }) {
           >
             {room.description}
           </Text>
+        )}
+
+        <TouchableOpacity
+          onPress={() => {
+            setSeeMore(!seeMore);
+          }}
+        >
+          {seeMore ? (
+            <Text style={{ color: "grey" }}>
+              See less <AntDesign name="caretup" size={10} color="grey" />
+            </Text>
+          ) : (
+            <Text style={{ color: "grey" }}>
+              See more <AntDesign name="caretdown" size={10} color="grey" />
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
       <MapView
@@ -129,7 +156,7 @@ export default function RoomScreen({ route }) {
           latitudeDelta: 0.09,
           longitudeDelta: 0.09,
         }}
-        style={{ width: "100%", height: 260 }}
+        style={{ width: "100%", height: 220 }}
       >
         <Marker
           coordinate={{
@@ -162,7 +189,7 @@ const styles = StyleSheet.create({
 
   description: {
     fontSize: 14,
-    marginVertical: 15,
+    marginVertical: 10,
     lineHeight: 20,
   },
 
@@ -183,6 +210,12 @@ const styles = StyleSheet.create({
   imgUser: {
     height: 80,
     width: 80,
+    borderRadius: 50,
+  },
+
+  dot: {
+    width: 15,
+    height: 15,
     borderRadius: 50,
   },
 });
