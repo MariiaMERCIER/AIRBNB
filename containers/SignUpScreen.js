@@ -15,7 +15,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import Logo from "../assets/airbnb.png";
 
-export default function SignUpScreen({ setToken }) {
+export default function SignUpScreen({ handleTokenAndId }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpass, setConfirmpass] = useState("");
@@ -43,11 +43,11 @@ export default function SignUpScreen({ setToken }) {
             description: description,
           }
         );
-        console.log(response.data);
-        setToken(response.data.token);
+        // console.log(response.data);
+        handleTokenAndId(response.data.token, response.data.user._id);
+
         alert("Welcome to AirBnb!");
       } catch (error) {
-        console.log(error.response);
         const message = error.response;
         if (
           message === "This username already has an account." ||

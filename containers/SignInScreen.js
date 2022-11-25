@@ -15,7 +15,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import Logo from "../assets/airbnb.png";
 
-export default function SignInScreen({ setToken }) {
+export default function SignInScreen({ handleTokenAndId }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -37,7 +37,8 @@ export default function SignInScreen({ setToken }) {
         );
 
         alert("Welcome to AirBnb!");
-        setToken(response.data.token);
+        handleTokenAndId(response.data.token, response.data.user._id);
+
         navigation.navigate("SignUp");
       }
     } catch (error) {

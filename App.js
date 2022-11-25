@@ -24,15 +24,20 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
+  const [userId, setUserId] = useState(null);
 
-  const setToken = async (token) => {
-    if (token) {
-      await AsyncStorage.setItem("userToken", token);
+  const handleTokenAndId = async (token, id) => {
+    if (token && id) {
+      await AsyncStorage.multiSet([
+        ["userToken", token],
+        ["userId", id],
+      ]);
     } else {
-      await AsyncStorage.removeItem("userToken");
+      await AsyncStorage.multiRemove(["userToken", "userId"]);
     }
 
     setUserToken(token);
+    setUserId(id);
   };
 
   useEffect(() => {
@@ -66,10 +71,10 @@ export default function App() {
           // No token found, user isn't signed in
           <>
             <Stack.Screen name="SignIn">
-              {() => <SignInScreen setToken={setToken} />}
+              {() => <SignInScreen handleTokenAndId={handleTokenAndId} />}
             </Stack.Screen>
             <Stack.Screen name="SignUp">
-              {() => <SignUpScreen setToken={setToken} />}
+              {() => <SignUpScreen handleTokenAndId={handleTokenAndId} />}
             </Stack.Screen>
           </>
         ) : (
@@ -139,7 +144,9 @@ export default function App() {
                   {() => (
                     <Stack.Navigator>
                       <Stack.Screen name="Localisation">
-                        {() => <LocalScreen setToken={setToken} />}
+                        {() => (
+                          <LocalScreen handleTokenAndId={handleTokenAndId} />
+                        )}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}
@@ -154,13 +161,7 @@ export default function App() {
                     ),
                   }}
                 >
-                  {() => (
-                    <Stack.Navigator>
-                      <Stack.Screen name="Profile">
-                        {() => <ProfileScreen setToken={setToken} />}
-                      </Stack.Screen>
-                    </Stack.Navigator>
-                  )}
+                  {() => <ProfileScreen handleTokenAndId={handleTokenAndId} />}
                 </Tab.Screen>
               </Tab.Navigator>
             )}

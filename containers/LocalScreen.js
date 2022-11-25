@@ -10,6 +10,7 @@ export default function LocalScreen() {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [finishLoading, setFinishLoading] = useState(true);
   const [data, setData] = useState("");
 
   const animation = useRef(null);
@@ -19,7 +20,7 @@ export default function LocalScreen() {
         // Demander la permission d'accéder aux coordonnées de l'appareil
         const permissionResponse =
           await Location.requestForegroundPermissionsAsync();
-        // console.log(permissionResponse);
+        console.log(permissionResponse);
 
         const { status } = permissionResponse;
 
@@ -30,8 +31,8 @@ export default function LocalScreen() {
           // console.log(location);
           setLatitude(location.coords.latitude);
           setLongitude(location.coords.longitude);
-
-          // console.log(latitude, longitude);
+          setIsLoading(false);
+          console.log(latitude, longitude);
         } else {
           alert("Permission refusée");
         }
@@ -44,22 +45,26 @@ export default function LocalScreen() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `https://express-airbnb-api.herokuapp.com/rooms/around`,
-        {
-          params: {
-            latitude: latitude,
-            longitude: longitude,
-          },
-        }
-      );
-      // console.log(response.data);
+      try {
+        const response = await axios.get(
+          `https://express-airbnb-api.herokuapp.com/rooms/around?latitude=${latitude}&longitude=${longitude}`
+        );
+        console.log(response.data);
 
-      setData(response.data);
-      setIsLoading(false);
+        setData(response.data);
+        setFinishLoading(false);
+      } catch (error) {
+        console.log("aroundme-requete >> ", error.message);
+      }
     };
-    fetchData();
-  }, [latitude, longitude]);
+
+    if (!isLoading && latitude && longitude) {
+      console.log(isLoading);
+      console.log(latitude);
+      console.log(longitude);
+      fetchData();
+    }
+  }, [latitude, longitude, isLoading]);
 
   return isLoading ? (
     <View style={styles.container}>
