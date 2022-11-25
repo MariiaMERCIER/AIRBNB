@@ -114,7 +114,11 @@ export default function App() {
                         {() => <HomeScreen />}
                       </Stack.Screen>
 
-                      <Stack.Screen name="Room" component={RoomScreen} />
+                      <Stack.Screen
+                        name="Room"
+                        component={RoomScreen}
+                        options={{ headerBackTitleVisible: false }}
+                      />
                     </Stack.Navigator>
                   )}
                 </Tab.Screen>
