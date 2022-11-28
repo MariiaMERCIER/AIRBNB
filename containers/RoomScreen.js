@@ -1,13 +1,6 @@
 import axios from "axios";
-import { useEffect, useState, useRef, startTransition } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { useEffect, useState, useRef } from "react";
+import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Swiper from "react-native-swiper";
 
 import LottieView from "lottie-react-native";

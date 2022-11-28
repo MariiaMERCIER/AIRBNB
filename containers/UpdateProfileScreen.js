@@ -13,25 +13,32 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 
-export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
-  const [userData, setUserData] = useState("");
+export default function UpdateProfileScreen() {
+  const animation = useRef();
+  const route = useRoute();
+  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [description, setDescription] = useState("");
+  const [updateData, setUpdateData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const navigation = useNavigation();
-  const animation = useRef(null);
 
-  console.log(userToken);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `https://express-airbnb-api.herokuapp.com/user/${userId}`,
+      const token = route.params.token;
+      const response = await axios.put(
+        "https://express-airbnb-api.herokuapp.com/user/update",
+        {
+          email: email,
+          description: description,
+          username: userName,
+        },
         {
           headers: {
-            authorization: `Bearer ${userToken}`,
+            authorization: "Bearer " + token,
           },
         }
       );
-      setUserData(response.data);
-      setIsLoading(false);
+      console.log(response.data);
     };
     fetchData();
   }, []);
@@ -84,19 +91,19 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
 
       <TextInput
         style={styles.inputText}
-        placeholder="Email"
+        // placeholder={}
         autoCapitalize="none"
         value={userData.email}
       />
       <TextInput
         style={styles.inputText}
-        placeholder="Username"
+        // placeholder={}
         autoCapitalize="none"
         value={userData.username}
       />
       <TextInput
         style={styles.inputDescription}
-        placeholder="Description"
+        // placeholder={}
         multiline
         numberOfLines={3}
         autoCapitalize="none"
@@ -105,25 +112,17 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() =>
+        onPress={() => {
           navigation.navigate("UpdateProfile", {
             id: userId,
-            token: userToken,
-          })
-        }
+          });
+        }}
       >
         <Text style={styles.textButton}>UPDATE</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: "#e9e9e9" }]}
-        onPress={() => handleTokenAndId(null)}
-      >
-        <Text style={styles.textButton}>LOG OUT</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

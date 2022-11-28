@@ -32,7 +32,7 @@ export default function LocalScreen() {
           setLatitude(location.coords.latitude);
           setLongitude(location.coords.longitude);
           setIsLoading(false);
-          console.log(latitude, longitude);
+          // console.log(latitude, longitude);
         } else {
           alert("Permission refusée");
         }
@@ -59,14 +59,14 @@ export default function LocalScreen() {
     };
 
     if (!isLoading && latitude && longitude) {
-      console.log(isLoading);
-      console.log(latitude);
-      console.log(longitude);
+      // console.log(isLoading);
+      // console.log(latitude);
+      // console.log(longitude);
       fetchData();
     }
   }, [latitude, longitude, isLoading]);
 
-  return isLoading ? (
+  return finishLoading ? (
     <View style={styles.container}>
       <LottieView
         autoPlay
@@ -96,18 +96,14 @@ export default function LocalScreen() {
           return (
             <Marker
               key={item._id}
-              conrdinate={{
-                latitude: item.location[0],
-                longitude: item.location[1],
+              coordinate={{
+                latitude: item.location[1],
+                longitude: item.location[0],
               }}
-            >
-              <Text>{item.price}</Text>
-              <Text>{item.title}</Text>
-              <Image
-                source={{ uri: item.photos[0].url }}
-                style={{ width: 100, height: 100 }}
-              />
-            </Marker>
+              title={item.title}
+              // description={item.price}
+              // image={{ uri: item.photos[0].url }}
+            />
           );
         })}
       </MapView>

@@ -43,17 +43,18 @@ export default function SignUpScreen({ handleTokenAndId }) {
             description: description,
           }
         );
-        // console.log(response.data);
-        handleTokenAndId(response.data.token, response.data.user._id);
+        console.log(response.data);
+
+        handleTokenAndId(response.data.token, response.data.id);
 
         alert("Welcome to AirBnb!");
       } catch (error) {
-        const message = error.response;
-        if (
-          message === "This username already has an account." ||
-          message === "This email already has an account "
-        )
-          setErrorMessage("Email or usernama have already been used!");
+        // const message = error.response;
+        // if (
+        //   message === "This username already has an account." ||
+        //   message === "This email already has an account "
+        // )
+        setErrorMessage("Email or usernama have already been used!");
       }
     }
   };
@@ -82,7 +83,7 @@ export default function SignUpScreen({ handleTokenAndId }) {
             onChangeText={(text) => {
               setUsername(text);
             }}
-            value={username || !password || !confirmpass || !email}
+            value={username}
           />
           <TextInput
             style={styles.inputDescription}
@@ -120,10 +121,11 @@ export default function SignUpScreen({ handleTokenAndId }) {
           <Text style={{ color: "#FF5A5F" }}>{errorMessage}</Text>
 
           <View>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.textButton} onPress={hadnleSubmitSignUp}>
-                Sign Up
-              </Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={hadnleSubmitSignUp}
+            >
+              <Text style={styles.textButton}>Sign Up</Text>
             </TouchableOpacity>
 
             <TouchableOpacity

@@ -35,11 +35,11 @@ export default function SignInScreen({ handleTokenAndId }) {
             password: password,
           }
         );
+        // console.log(response.data);
 
         alert("Welcome to AirBnb!");
-        handleTokenAndId(response.data.token, response.data.user._id);
 
-        navigation.navigate("SignUp");
+        handleTokenAndId(response.data.token, response.data.id);
       }
     } catch (error) {
       console.log("cathch signIn >>", error.response);
