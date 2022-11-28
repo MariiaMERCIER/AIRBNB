@@ -13,7 +13,7 @@ import HomeScreen from "./containers/HomeScreen";
 import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
-import UpdateProfileScreen from "./containers/UpdateProfileScreen";
+
 import SplashScreen from "./containers/SplashScreen";
 import LocalScreen from "./containers/LocalScreen";
 import RoomScreen from "./containers/RoomScreen";
@@ -184,15 +184,6 @@ export default function App() {
                       <Stack.Screen name="Profile">
                         {() => (
                           <ProfileScreen
-                            handleTokenAndId={handleTokenAndId}
-                            userId={userId}
-                            userToken={userToken}
-                          />
-                        )}
-                      </Stack.Screen>
-                      <Stack.Screen name="UpdateProfile">
-                        {() => (
-                          <UpdateProfileScreen
                             handleTokenAndId={handleTokenAndId}
                             userId={userId}
                             userToken={userToken}

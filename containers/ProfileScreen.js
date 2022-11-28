@@ -1,4 +1,3 @@
-import { useRoute } from "@react-navigation/core";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import {
@@ -9,33 +8,67 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 
 export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
-  const [userData, setUserData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const navigation = useNavigation();
+  const [photo, setPhoto] = useState("");
+  const [updateInfo, setUpdateInfo] = useState(false);
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [description, setDescription] = useState("");
+
   const animation = useRef(null);
 
-  console.log(userToken);
+  // console.log(userToken);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `https://express-airbnb-api.herokuapp.com/user/${userId}`,
-        {
-          headers: {
-            authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-      setUserData(response.data);
-      setIsLoading(false);
+      try {
+        const response = await axios.get(
+          `https://express-airbnb-api.herokuapp.com/user/${userId}`,
+          {
+            headers: {
+              authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
+        // console.log(response.data);
+        setPhoto(response.data.photo);
+        setEmail(response.data.email);
+        setUsername(response.data.username);
+        setDescription(response.data.description);
+
+        setIsLoading(false);
+      } catch (error) {
+        console.log("profileInfo >>", error.message);
+      }
     };
     fetchData();
   }, []);
 
+  const handleUpdate = async () => {
+    try {
+      const updateInformation = await axios.put(
+        "https://express-airbnb-api.herokuapp.com/user/update",
+        {
+          headers: {
+            authorization: `Bearer ${userToken}`,
+          },
+        },
+        {
+          email: email,
+          username: username,
+          description: description,
+        }
+      );
+      alert("Your profile has been successefully modified");
+      console.log(updateInformation);
+    } catch (error) {
+      console.log("updateInfo >>", error.response);
+    }
+  };
   return isLoading ? (
     <View style={styles.container}>
       <LottieView
@@ -60,14 +93,14 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
             borderRadius: 100,
           }}
         >
-          {userData.photo ? (
+          {photo ? (
             <Image
-              source={{ uri: userData.photo.url }}
+              source={{ uri: photo.url }}
               style={{ width: 130, height: 130, borderRadius: 100 }}
               resizeMode="cover"
             />
           ) : (
-            <FontAwesome5 name="user-alt" size={130} color="lightgrey" />
+            <FontAwesome5 name="user-alt" size={100} color="lightgrey" />
           )}
         </View>
         <View
@@ -84,41 +117,45 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
 
       <TextInput
         style={styles.inputText}
-        placeholder="Email"
         autoCapitalize="none"
-        value={userData.email}
-      />
-      <TextInput
-        style={styles.inputText}
-        placeholder="Username"
-        autoCapitalize="none"
-        value={userData.username}
-      />
-      <TextInput
-        style={styles.inputDescription}
-        placeholder="Description"
-        multiline
-        numberOfLines={3}
-        autoCapitalize="none"
-        value={userData.description}
+        placeholder="email"
+        value={email}
+        onChange={(text) => {
+          setEmail(text);
+        }}
       />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate("UpdateProfile", {
-            id: userId,
-            token: userToken,
-          })
-        }
-      >
-        <Text style={styles.textButton}>UPDATE</Text>
+      <TextInput
+        style={styles.inputText}
+        autoCapitalize="none"
+        placeholder="username"
+        value={username}
+        onChange={(text) => {
+          setUsername(text);
+        }}
+      />
+
+      <TextInput
+        style={styles.inputDescription}
+        multiline
+        numberOfLines={3}
+        placeholder="description"
+        autoCapitalize="none"
+        value={description}
+        onChange={(text) => {
+          setDescription(text);
+        }}
+      />
+
+      <TouchableOpacity style={styles.button} onPress={handleUpdate}>
+        <Text style={styles.textButton}>Update</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={[styles.button, { backgroundColor: "#e9e9e9" }]}
         onPress={() => handleTokenAndId(null)}
       >
-        <Text style={styles.textButton}>LOG OUT</Text>
+        <Text style={styles.textButton}>Log out</Text>
       </TouchableOpacity>
     </View>
   );
