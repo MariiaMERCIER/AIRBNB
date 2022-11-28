@@ -9,20 +9,27 @@ import {
   StyleSheet,
 } from "react-native";
 
+import * as ImagePicker from "expo-image-picker";
+
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
   const [isLoading, setIsLoading] = useState(true);
   const [photo, setPhoto] = useState("");
-  const [updateInfo, setUpdateInfo] = useState(false);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
+  const [updateInformation, setUpdateInformation] = useState(false);
+  const [updatePicture, setUpdatePicture] = useState(false);
+  const navigation = useNavigation();
 
   const animation = useRef(null);
 
-  // console.log(userToken);
+  const [selectPicture, setSelectPicture] = useState(null);
+  const [isPictureLoading, setIsPictureLoading] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,36 +46,105 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
         setEmail(response.data.email);
         setUsername(response.data.username);
         setDescription(response.data.description);
-
         setIsLoading(false);
       } catch (error) {
-        console.log("profileInfo >>", error.message);
+        console.log("profileInfo >>", error.response);
       }
     };
     fetchData();
   }, []);
 
-  const handleUpdate = async () => {
-    try {
-      const updateInformation = await axios.put(
-        "https://express-airbnb-api.herokuapp.com/user/update",
-        {
-          headers: {
-            authorization: `Bearer ${userToken}`,
-          },
-        },
-        {
-          email: email,
-          username: username,
-          description: description,
+  const handleSubmit = async () => {
+    if (selectPicture) {
+      setIsPictureLoading(true);
+
+      const tab = selectPicture.split(".");
+
+      try {
+        const formData = new FormData();
+        formData.append("photo", {
+          uri: selectPicture,
+          name: `my-photo.${tab[1]}`,
+          type: `image/${tab[1]}`,
+        });
+
+        const updatePic = await axios.put(
+          "https://express-airbnb-api.herokuapp.com/user/upload_picture",
+          formData,
+          {
+            headers: {
+              authorization: `Bearer ${userToken}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (updatePic.data) {
+          setIsPictureLoading(false);
+          alert("You photo is updated");
+          console.log(updatePic.data);
         }
-      );
-      alert("Your profile has been successefully modified");
-      console.log(updateInformation);
-    } catch (error) {
-      console.log("updateInfo >>", error.response);
+      } catch (error) {
+        console.log("updatepicture >>", error.message);
+      }
+    }
+    if (setUpdateInformation) {
+      try {
+        const updateInformation = await axios.put(
+          "https://express-airbnb-api.herokuapp.com/user/update",
+          {
+            email: email,
+            username: username,
+            description: description,
+          },
+          {
+            headers: {
+              authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
+        alert("Your profile has been successefully modified");
+      } catch (error) {
+        console.log("updateInfo >>", error.response);
+      }
     }
   };
+
+  const getPermissionAndGetPicture = async () => {
+    // On demande le droit d'acces
+    const askPermission =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (askPermission.status === "granted") {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [1, 1],
+      });
+      if (result.canceled === true) {
+        alert("No photo chose");
+      } else {
+        setSelectPicture(result.assets[0].uri);
+      }
+    } else {
+      alert("Access permission refused");
+    }
+  };
+  const getPermissionAndGetPhoto = async () => {
+    // On demande le droit d'acces
+    const askPermission = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (askPermission.status === "granted") {
+      const result = await ImagePicker.launchCameraAsync();
+      if (result.canceled === true) {
+        alert("No photo chose");
+      } else {
+        setSelectPicture(result.assets[0].uri);
+      }
+    } else {
+      alert("Access permission refused");
+    }
+  };
+
   return isLoading ? (
     <View style={styles.container}>
       <LottieView
@@ -93,14 +169,19 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
             borderRadius: 100,
           }}
         >
-          {photo ? (
+          {photo === undefined ? (
+            <FontAwesome5 name="user-alt" size={100} color="lightgrey" />
+          ) : selectPicture ? (
+            <Image
+              source={{ uri: selectPicture }}
+              style={{ height: 50, width: 50 }}
+            />
+          ) : (
             <Image
               source={{ uri: photo.url }}
               style={{ width: 130, height: 130, borderRadius: 100 }}
               resizeMode="cover"
             />
-          ) : (
-            <FontAwesome5 name="user-alt" size={100} color="lightgrey" />
           )}
         </View>
         <View
@@ -110,8 +191,12 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
             marginHorizontal: 20,
           }}
         >
-          <MaterialIcons name="photo-library" size={35} color="grey" />
-          <MaterialIcons name="photo-camera" size={35} color="grey" />
+          <TouchableOpacity onPress={getPermissionAndGetPicture}>
+            <MaterialIcons name="photo-library" size={35} color="grey" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={getPermissionAndGetPhoto}>
+            <MaterialIcons name="photo-camera" size={35} color="grey" />
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -119,8 +204,9 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
         style={styles.inputText}
         autoCapitalize="none"
         placeholder="email"
+        setUpdateInformation={true}
         value={email}
-        onChange={(text) => {
+        onChangeText={(text) => {
           setEmail(text);
         }}
       />
@@ -129,8 +215,9 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
         style={styles.inputText}
         autoCapitalize="none"
         placeholder="username"
+        setUpdateInformation={true}
         value={username}
-        onChange={(text) => {
+        onChangeText={(text) => {
           setUsername(text);
         }}
       />
@@ -140,14 +227,15 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
         multiline
         numberOfLines={3}
         placeholder="description"
+        setUpdateInformation={true}
         autoCapitalize="none"
         value={description}
-        onChange={(text) => {
+        onChangeText={(text) => {
           setDescription(text);
         }}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleUpdate}>
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.textButton}>Update</Text>
       </TouchableOpacity>
 

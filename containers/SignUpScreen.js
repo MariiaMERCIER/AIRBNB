@@ -25,7 +25,7 @@ export default function SignUpScreen({ handleTokenAndId }) {
 
   const navigation = useNavigation();
 
-  const hadnleSubmitSignUp = async () => {
+  const hadnleSubmit = async () => {
     setErrorMessage("");
 
     if (!username || !password || !confirmpass || !email || !description) {
@@ -43,7 +43,6 @@ export default function SignUpScreen({ handleTokenAndId }) {
             description: description,
           }
         );
-        console.log(response.data);
 
         handleTokenAndId(response.data.token, response.data.id);
 
@@ -54,7 +53,7 @@ export default function SignUpScreen({ handleTokenAndId }) {
         //   message === "This username already has an account." ||
         //   message === "This email already has an account "
         // )
-        setErrorMessage("Email or usernama have already been used!");
+        setErrorMessage("Email or username have already been used!");
       }
     }
   };
@@ -121,10 +120,7 @@ export default function SignUpScreen({ handleTokenAndId }) {
           <Text style={{ color: "#FF5A5F" }}>{errorMessage}</Text>
 
           <View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={hadnleSubmitSignUp}
-            >
+            <TouchableOpacity style={styles.button} onPress={hadnleSubmit}>
               <Text style={styles.textButton}>Sign Up</Text>
             </TouchableOpacity>
 

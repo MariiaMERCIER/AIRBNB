@@ -22,7 +22,7 @@ export default function SignInScreen({ handleTokenAndId }) {
 
   const navigation = useNavigation();
 
-  const handleSubmitSignin = async () => {
+  const handleSubmit = async () => {
     setErrorMessage("");
     try {
       if (!email || !password) {
@@ -81,10 +81,7 @@ export default function SignInScreen({ handleTokenAndId }) {
           <Text style={{ color: "#FF5A5F" }}>{errorMessage}</Text>
 
           <View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleSubmitSignin}
-            >
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
               <Text style={styles.textButton}>Sign in</Text>
             </TouchableOpacity>
 

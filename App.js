@@ -14,7 +14,6 @@ import ProfileScreen from "./containers/ProfileScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SignUpScreen from "./containers/SignUpScreen";
 
-import SplashScreen from "./containers/SplashScreen";
 import LocalScreen from "./containers/LocalScreen";
 import RoomScreen from "./containers/RoomScreen";
 
