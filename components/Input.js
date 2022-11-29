@@ -1,7 +1,7 @@
 import React from "react";
 import { TextInput, StyleSheet } from "react-native";
 
-const Input = ({ placeholder, text, setFunction, value, placeholder }) => {
+const Input = ({ text, secureTextEntry, setFunction, value, placeholder }) => {
   return (
     <TextInput
       style={styles.input}
@@ -9,9 +9,7 @@ const Input = ({ placeholder, text, setFunction, value, placeholder }) => {
       value={value}
       placeholder={placeholder}
       onChangeText={(text) => setFunction(text)}
-      // {placeholder==="Password" || "Confirm Password" &&
-      // password={true}
-      // secureTextEntry={true}}
+      secureTextEntry={secureTextEntry ? true : false}
     />
   );
 };
