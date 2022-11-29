@@ -45,8 +45,10 @@ export default function SignInScreen({ handleTokenAndId }) {
     <KeyboardAwareScrollView contentContainerStyle={styles.topContainer}>
       <View>
         <View style={styles.container}>
-          <Logo size={"large"} />
-          <Text style={styles.mainTitle}>Sign in</Text>
+          <View>
+            <Logo size={"large"} />
+            <Text style={styles.mainTitle}>Sign in</Text>
+          </View>
           <Input value={email} placeholder={"Email"} setFunction={setEmail} />
 
           <Input
@@ -85,11 +87,6 @@ const styles = StyleSheet.create({
 
   container: {
     alignItems: "center",
-    marginVertical: 200,
-  },
-  logo: {
-    width: 150,
-    height: 150,
   },
 
   mainTitle: {

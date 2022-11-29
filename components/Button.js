@@ -20,7 +20,7 @@ export default Button;
 
 const styles = StyleSheet.create({
   button: {
-    width: 250,
+    width: 220,
     height: 60,
     borderWidth: 3,
     borderColor: "#FF5A5F",

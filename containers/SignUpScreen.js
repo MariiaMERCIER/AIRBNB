@@ -2,18 +2,19 @@ import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
 import axios from "axios";
 import {
-  Button,
   Text,
   TextInput,
   View,
   TouchableOpacity,
-  Image,
   StyleSheet,
 } from "react-native";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import Logo from "../assets/airbnb.png";
+import Logo from "../components/Logo";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import LargeInput from "../components/LargeInput";
 
 export default function SignUpScreen({ handleTokenAndId }) {
   const [username, setUsername] = useState("");
@@ -59,70 +60,48 @@ export default function SignUpScreen({ handleTokenAndId }) {
   };
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={styles.topContainer}>
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={{ flex: 1, backgroundColor: "white" }}
+    >
+      <View>
         <View style={styles.container}>
           <View style={{ alignItems: "center" }}>
-            <Image source={Logo} style={styles.logo} />
+            <Logo size={"large"} />
             <Text style={styles.mainTitle}>Sign Up</Text>
           </View>
-          <TextInput
-            style={styles.inputText}
-            placeholder="Email"
-            autoCapitalize="none"
-            onChangeText={(text) => {
-              setEmail(text);
-            }}
-            value={email}
-          />
-          <TextInput
-            style={styles.inputText}
-            placeholder="Username"
-            autoCapitalize="none"
-            onChangeText={(text) => {
-              setUsername(text);
-            }}
+
+          <Input setFunction={setEmail} value={email} placeholder="Email" />
+
+          <Input
+            setFunction={setUsername}
             value={username}
+            placeholder="Username"
           />
-          <TextInput
-            style={styles.inputDescription}
-            placeholder="Description"
-            multiline
-            numberOfLines={3}
-            autoCapitalize="none"
-            onChangeText={(text) => {
-              setDescription(text);
-            }}
+          <LargeInput
+            setFunction={setDescription}
             value={description}
+            placeholder="Description"
           />
-          <TextInput
-            style={styles.inputText}
+
+          <Input
             placeholder="Password"
             password={true}
             secureTextEntry={true}
-            autoCapitalize="none"
-            onChangeText={(text) => {
-              setPassword(text);
-            }}
             value={password}
+            setFunction={setPassword}
           />
-          <TextInput
-            style={styles.inputText}
-            placeholder="Confirm password"
+
+          <Input
+            placeholder="Confirm Password"
             password={true}
             secureTextEntry={true}
-            autoCapitalize="none"
-            onChangeText={(text) => {
-              setConfirmpass(text);
-            }}
             value={confirmpass}
+            setFunction={setConfirmpass}
           />
           <Text style={{ color: "#FF5A5F" }}>{errorMessage}</Text>
 
-          <View>
-            <TouchableOpacity style={styles.button} onPress={hadnleSubmit}>
-              <Text style={styles.textButton}>Sign Up</Text>
-            </TouchableOpacity>
+          <View style={{ marginTop: 50 }}>
+            <Button text="Sign Up" setFunction={hadnleSubmit} />
 
             <TouchableOpacity
               onPress={() => {
@@ -141,17 +120,8 @@ export default function SignUpScreen({ handleTokenAndId }) {
 }
 
 const styles = StyleSheet.create({
-  topContainer: {
-    flex: 1,
-  },
   container: {
-    flex: 1,
     alignItems: "center",
-    justifyContent: "space-evenly",
-  },
-  logo: {
-    width: 150,
-    height: 150,
   },
 
   mainTitle: {
@@ -160,42 +130,8 @@ const styles = StyleSheet.create({
     color: "grey",
   },
 
-  inputText: {
-    width: 350,
-    borderBottomWidth: 1,
-    borderBottomColor: "red",
-    paddingVertical: 15,
-    paddingLeft: 15,
-  },
-
-  inputDescription: {
-    marginTop: 30,
-    width: 350,
-    height: 150,
-    borderWidth: 1,
-    borderColor: "red",
-    paddingVertical: 15,
-    paddingLeft: 15,
-    textAlignVertical: "top",
-  },
-  button: {
-    borderColor: "red",
-    borderWidth: 2,
-    alignItems: "center",
-    justifyContent: "center",
-    height: 60,
-    width: 220,
-    borderRadius: 50,
-  },
-
-  textButton: {
-    fontSize: 20,
-    fontWeight: "600",
-  },
-
   textUnderButton: {
     textAlign: "center",
-
     marginVertical: 15,
     color: "grey",
   },

@@ -8,7 +8,8 @@ const LargeInput = ({ text, setFunction, value, placeholder }) => {
       autoCapitalize="none"
       value={value}
       placeholder={placeholder}
-      onPressText={(text) => setFunction(text)}
+      multiline
+      onChangevText={(text) => setFunction(text)}
     />
   );
 };
@@ -17,14 +18,14 @@ export default LargeInput;
 const styles = StyleSheet.create({
   largeInput: {
     marginTop: 60,
-    marginBottom: 30,
     width: 350,
     height: 100,
     borderWidth: 1,
-    borderColor: "red",
-    paddingVertical: 15,
-    paddingLeft: 15,
+    borderColor: "#FF5A5F",
     textAlignVertical: "top",
+    paddingTop: 10,
+
+    paddingLeft: 15,
     fontSize: 16,
   },
 });
