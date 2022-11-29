@@ -17,6 +17,8 @@ import SignUpScreen from "./containers/SignUpScreen";
 import LocalScreen from "./containers/LocalScreen";
 import RoomScreen from "./containers/RoomScreen";
 
+import Logo from "./components/Logo";
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -99,15 +101,7 @@ export default function App() {
                   {() => (
                     <Stack.Navigator
                       screenOptions={{
-                        headerTitle: () => (
-                          <Image
-                            style={{
-                              width: 45,
-                              height: 45,
-                            }}
-                            source={require("./assets/airbnb.png")}
-                          />
-                        ),
+                        headerTitle: () => <Logo size={"small"} />,
 
                         headerStyle: {
                           backgroundColor: "white",

@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
 
   smallLogo: {
     width: 45,
-    height: 45,
+    height: 60,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
   },
 });
