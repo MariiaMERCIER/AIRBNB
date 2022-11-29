@@ -1,19 +1,13 @@
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
 import axios from "axios";
-import {
-  Button,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-} from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+
+import Input from "../components/Input";
+import Button from "../components/Button";
+import Logo from "../components/Logo";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
-import Logo from "../assets/airbnb.png";
 
 export default function SignInScreen({ handleTokenAndId }) {
   const [email, setEmail] = useState("");
@@ -49,41 +43,24 @@ export default function SignInScreen({ handleTokenAndId }) {
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.topContainer}>
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <View>
         <View style={styles.container}>
-          <View style={{ alignItems: "center" }}>
-            <Image source={Logo} style={styles.logo} />
-            <Text style={styles.mainTitle}>Sign in</Text>
-          </View>
+          <Logo size={"large"} />
+          <Text style={styles.mainTitle}>Sign in</Text>
+          <Input value={email} placeholder={"Email"} setFunction={setEmail} />
 
-          <TextInput
-            style={styles.inputText}
-            placeholder="Email"
-            onChangeText={(text) => {
-              setEmail(text);
-            }}
-            value={email}
-            autoCapitalize="none"
-          />
-
-          <TextInput
-            style={styles.inputText}
-            placeholder="Password"
+          <Input
+            placeholder={"Password"}
             password={true}
             secureTextEntry={true}
-            autoCapitalize="none"
-            onChangeText={(text) => {
-              setPassword(text);
-            }}
             value={password}
+            setFunction={setPassword}
           />
 
           <Text style={{ color: "#FF5A5F" }}>{errorMessage}</Text>
 
-          <View>
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.textButton}>Sign in</Text>
-            </TouchableOpacity>
+          <View style={{ marginTop: 50 }}>
+            <Button text={"Sign in"} setFunction={handleSubmit} />
 
             <TouchableOpacity
               onPress={() => {
@@ -102,12 +79,13 @@ export default function SignInScreen({ handleTokenAndId }) {
 const styles = StyleSheet.create({
   topContainer: {
     flex: 1,
+    backgroundColor: "white",
+    justifyContent: "center",
   },
 
   container: {
-    flex: 1,
     alignItems: "center",
-    justifyContent: "space-evenly",
+    marginVertical: 200,
   },
   logo: {
     width: 150,
@@ -118,33 +96,11 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "600",
     color: "grey",
-  },
-
-  inputText: {
-    width: 350,
-    borderBottomWidth: 1,
-    borderBottomColor: "red",
-    paddingVertical: 15,
-  },
-
-  button: {
-    borderColor: "red",
-    borderWidth: 2,
-    alignItems: "center",
-    justifyContent: "center",
-    height: 60,
-    width: 220,
-    borderRadius: 50,
-  },
-
-  textButton: {
-    fontSize: 20,
-    fontWeight: "600",
+    textAlign: "center",
   },
 
   textUnderButton: {
     textAlign: "center",
-
     marginVertical: 15,
     color: "grey",
   },

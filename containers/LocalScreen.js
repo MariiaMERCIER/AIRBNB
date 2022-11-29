@@ -2,9 +2,10 @@ import { Text, Image, View, StyleSheet } from "react-native";
 import { useState, useEffect, useRef } from "react";
 
 import * as Location from "expo-location";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import LottieView from "lottie-react-native";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 export default function LocalScreen() {
   const [latitude, setLatitude] = useState(null);
@@ -12,6 +13,7 @@ export default function LocalScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [finishLoading, setFinishLoading] = useState(true);
   const [data, setData] = useState("");
+  const navigation = useNavigation();
 
   const animation = useRef(null);
   useEffect(() => {
@@ -93,7 +95,6 @@ export default function LocalScreen() {
         style={{ width: "100%", height: "100%" }}
       >
         {data.map((item) => {
-          console.log(item.price);
           return (
             <Marker
               key={item._id}
@@ -101,10 +102,23 @@ export default function LocalScreen() {
                 latitude: item.location[1],
                 longitude: item.location[0],
               }}
-              title={item.title}
-              description={item.price}
-              // image={{ uri: item.photos[0].url }}
-            />
+            >
+              <Callout
+                onPress={() => {
+                  navigation.navigate("Room", {
+                    id: item._id,
+                  });
+                }}
+              >
+                <Text>{item.title}</Text>
+                <Text>{item.price} €</Text>
+                <Image
+                  source={{ uri: item.photos[0].url }}
+                  style={{ width: "100%", height: 120 }}
+                  resizeMode="cover"
+                />
+              </Callout>
+            </Marker>
           );
         })}
       </MapView>

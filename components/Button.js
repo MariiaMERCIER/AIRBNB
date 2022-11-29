@@ -1,13 +1,15 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 
-const Button = ({ text, backgroundColor }) => {
+const Button = ({ text, backgroundColor, setFunction }) => {
   return (
     <TouchableOpacity
       style={
         backgroundColor ? [styles.button, styles.backColorBtn] : styles.button
       }
-      onPress={hadlesubmit}
+      onPress={() => {
+        setFunction();
+      }}
     >
       <Text style={styles.textButton}>{text}</Text>
     </TouchableOpacity>

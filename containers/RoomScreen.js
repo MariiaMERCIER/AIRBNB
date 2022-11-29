@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Swiper from "react-native-swiper";
 
 import LottieView from "lottie-react-native";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker, Callout } from "react-native-maps";
 
 import { AntDesign } from "@expo/vector-icons";
 
@@ -43,8 +43,6 @@ export default function RoomScreen({ route }) {
     return starArray;
   };
 
-  // handleSeeMore = () => {};
-
   return isLoading ? (
     <View
       style={{
@@ -78,7 +76,7 @@ export default function RoomScreen({ route }) {
             return (
               <Image
                 source={{ uri: photo.url }}
-                style={{ width: "100%", height: 300 }}
+                style={{ width: "100%", height: "100%" }}
                 resizeMode="cover"
                 key={photo.picture_id}
               />
@@ -87,7 +85,7 @@ export default function RoomScreen({ route }) {
         </Swiper>
       </View>
       <View style={styles.container}>
-        <View style={{ flexDirection: "row", width: 360 }}>
+        <View style={{ flexDirection: "row" }}>
           <View>
             <Text style={styles.title} ellipsizeMode="tail" numberOfLines={1}>
               {room.title}
@@ -149,16 +147,19 @@ export default function RoomScreen({ route }) {
           latitudeDelta: 0.09,
           longitudeDelta: 0.09,
         }}
-        style={{ width: "100%", height: 220 }}
+        style={{ width: "100%", height: "30%" }}
       >
         <Marker
           coordinate={{
             latitude: room.location[1],
             longitude: room.location[0],
           }}
-          title={room.title}
-          description={room.price}
-        />
+        >
+          <Callout>
+            <Text>{room.title}</Text>
+            <Text>{room.price}</Text>
+          </Callout>
+        </Marker>
       </MapView>
     </>
   );
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
 
   carrousel: {
     width: "100%",
-    height: 300,
+    height: "38%",
   },
 
   description: {

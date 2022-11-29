@@ -8,7 +8,7 @@ const Input = ({ text, setFunction, value, placeholder }) => {
       autoCapitalize="none"
       value={value}
       placeholder={placeholder}
-      onPressText={(text) => setFunction(text)}
+      onChangeText={(text) => setFunction(text)}
     />
   );
 };
