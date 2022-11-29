@@ -9,7 +9,8 @@ const LargeInput = ({ text, setFunction, value, placeholder }) => {
       value={value}
       placeholder={placeholder}
       multiline
-      onChangevText={(text) => setFunction(text)}
+      numberOfLines={3}
+      onChangeText={(text) => setFunction(text)}
     />
   );
 };

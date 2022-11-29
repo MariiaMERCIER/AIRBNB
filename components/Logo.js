@@ -1,15 +1,14 @@
 import React from "react";
-import { Image, View, StyleSheet } from "react-native";
+import { Image, StyleSheet } from "react-native";
 
 const Logo = ({ size }) => {
   return (
-    <View>
-      <Image
-        source={require("../assets/airbnb.png")}
-        style={size === "large" ? styles.largeLogo : styles.smallLogo}
-        resizeMode="contain"
-      />
-    </View>
+    <Image
+      source={require("../assets/airbnb.png")}
+      style={size === "large" ? styles.largeLogo : styles.smallLogo}
+      // style={{ width: 45, height: 45 }}
+      resizeMode="contain"
+    />
   );
 };
 export default Logo;
@@ -21,10 +20,7 @@ const styles = StyleSheet.create({
   },
 
   smallLogo: {
-    width: 45,
-    height: 60,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 10,
+    width: 50,
+    height: 50,
   },
 });

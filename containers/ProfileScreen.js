@@ -10,10 +10,14 @@ import {
 } from "react-native";
 
 import * as ImagePicker from "expo-image-picker";
+import { useNavigation } from "@react-navigation/native";
+
+import Button from "../components/Button";
+import Input from "../components/Input";
+import LargeInput from "../components/LargeInput";
 
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
-import { useNavigation } from "@react-navigation/native";
 
 export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,8 +25,7 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
-  const [updateInformation, setUpdateInformation] = useState(false);
-  const [updatePicture, setUpdatePicture] = useState(false);
+
   const navigation = useNavigation();
 
   const animation = useRef(null);
@@ -87,7 +90,7 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
         console.log("updatepicture >>", error.message);
       }
     }
-    if (setUpdateInformation) {
+    if (email || username || description) {
       try {
         const updateInformation = await axios.put(
           "https://express-airbnb-api.herokuapp.com/user/update",
@@ -168,7 +171,7 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
             borderRadius: 100,
           }}
         >
-          {photo === undefined ? (
+          {!photo ? (
             <FontAwesome5 name="user-alt" size={100} color="lightgrey" />
           ) : selectPicture ? (
             <Image
@@ -199,51 +202,28 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
         </View>
       </View>
 
-      <TextInput
-        style={styles.inputText}
-        autoCapitalize="none"
-        placeholder="email"
-        setUpdateInformation={true}
-        value={email}
-        onChangeText={(text) => {
-          setEmail(text);
-        }}
-      />
+      <Input placeholder="email" value={email} setFunction={setEmail} />
 
-      <TextInput
-        style={styles.inputText}
-        autoCapitalize="none"
+      <Input
         placeholder="username"
-        setUpdateInformation={true}
         value={username}
-        onChangeText={(text) => {
-          setUsername(text);
-        }}
+        setFunction={setUsername}
       />
 
-      <TextInput
-        style={styles.inputDescription}
-        multiline
-        numberOfLines={3}
+      <LargeInput
         placeholder="description"
-        setUpdateInformation={true}
-        autoCapitalize="none"
         value={description}
-        onChangeText={(text) => {
-          setDescription(text);
-        }}
+        setFunction={setDescription}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.textButton}>Update</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: "#e9e9e9" }]}
-        onPress={() => handleTokenAndId(null)}
-      >
-        <Text style={styles.textButton}>Log out</Text>
-      </TouchableOpacity>
+      <View style={{ margin: 70 }}>
+        <Button text="Update" setFunction={handleSubmit} />
+        <Button
+          text="Log out"
+          backgroundColor={true}
+          setFunction={() => handleTokenAndId(null)}
+        />
+      </View>
     </View>
   );
 }

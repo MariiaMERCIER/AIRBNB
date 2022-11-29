@@ -18,6 +18,7 @@ import LocalScreen from "./containers/LocalScreen";
 import RoomScreen from "./containers/RoomScreen";
 
 import Logo from "./components/Logo";
+import { View, Text } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -102,6 +103,17 @@ export default function App() {
                     <Stack.Navigator
                       screenOptions={{
                         headerTitle: () => <Logo size={"small"} />,
+                        // headerTitle: () => (
+                        //   <View
+                        //     style={{
+                        //       height: "100%",
+                        //       width: "100%",
+                        //       backgroundColor: "green",
+                        //     }}
+                        //   >
+                        //     <Text>c</Text>
+                        //   </View>
+                        // ),
 
                         headerStyle: {
                           backgroundColor: "white",
