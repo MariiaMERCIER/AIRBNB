@@ -14,6 +14,8 @@ const Button = ({ text, backgroundColor }) => {
   );
 };
 
+export default Button;
+
 const styles = StyleSheet.create({
   button: {
     width: 250,

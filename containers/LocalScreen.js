@@ -93,6 +93,7 @@ export default function LocalScreen() {
         style={{ width: "100%", height: "100%" }}
       >
         {data.map((item) => {
+          console.log(item.price);
           return (
             <Marker
               key={item._id}
@@ -101,7 +102,7 @@ export default function LocalScreen() {
                 longitude: item.location[0],
               }}
               title={item.title}
-              // description={item.price}
+              description={item.price}
               // image={{ uri: item.photos[0].url }}
             />
           );

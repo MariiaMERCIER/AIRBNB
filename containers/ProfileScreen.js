@@ -82,7 +82,6 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
         if (updatePic.data) {
           setIsPictureLoading(false);
           alert("You photo is updated");
-          console.log(updatePic.data);
         }
       } catch (error) {
         console.log("updatepicture >>", error.message);

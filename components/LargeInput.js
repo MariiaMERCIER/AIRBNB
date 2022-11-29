@@ -1,0 +1,30 @@
+import React from "react";
+import { TextInput, StyleSheet } from "react-native";
+
+const LargeInput = ({ text, setFunction, value, placeholder }) => {
+  return (
+    <TextInput
+      style={styles.largeInput}
+      autoCapitalize="none"
+      value={value}
+      placeholder={placeholder}
+      onPressText={(text) => setFunction(text)}
+    />
+  );
+};
+export default LargeInput;
+
+const styles = StyleSheet.create({
+  largeInput: {
+    marginTop: 60,
+    marginBottom: 30,
+    width: 350,
+    height: 100,
+    borderWidth: 1,
+    borderColor: "red",
+    paddingVertical: 15,
+    paddingLeft: 15,
+    textAlignVertical: "top",
+    fontSize: 16,
+  },
+});
