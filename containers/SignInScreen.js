@@ -1,7 +1,10 @@
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
-import axios from "axios";
+
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import axios from "axios";
+
+// Import des composants
 
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -29,7 +32,6 @@ export default function SignInScreen({ handleTokenAndId }) {
             password: password,
           }
         );
-        // console.log(response.data);
 
         alert("Welcome to AirBnb!");
 

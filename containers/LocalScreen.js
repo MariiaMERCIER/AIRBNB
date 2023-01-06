@@ -1,11 +1,12 @@
-import { Text, Image, View, StyleSheet } from "react-native";
 import { useState, useEffect, useRef } from "react";
+import { Text, Image, View, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
+import axios from "axios";
 import * as Location from "expo-location";
+
 import MapView, { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import LottieView from "lottie-react-native";
-import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
 
 export default function LocalScreen() {
   const [latitude, setLatitude] = useState(null);
@@ -22,19 +23,15 @@ export default function LocalScreen() {
         // Demander la permission d'accéder aux coordonnées de l'appareil
         const permissionResponse =
           await Location.requestForegroundPermissionsAsync();
-        console.log(permissionResponse);
 
         const { status } = permissionResponse;
 
         if (status === "granted") {
-          // console.log("On passe à la suite");
-
           const location = await Location.getCurrentPositionAsync();
-          // console.log(location);
+
           setLatitude(location.coords.latitude);
           setLongitude(location.coords.longitude);
           setIsLoading(false);
-          // console.log(latitude, longitude);
         } else {
           alert("Permission refusée");
         }
@@ -51,7 +48,6 @@ export default function LocalScreen() {
         const response = await axios.get(
           `https://express-airbnb-api.herokuapp.com/rooms/around?latitude=${latitude}&longitude=${longitude}`
         );
-        console.log(response.data);
 
         setData(response.data);
         setFinishLoading(false);
@@ -61,9 +57,6 @@ export default function LocalScreen() {
     };
 
     if (!isLoading && latitude && longitude) {
-      // console.log(isLoading);
-      // console.log(latitude);
-      // console.log(longitude);
       fetchData();
     }
   }, [latitude, longitude, isLoading]);

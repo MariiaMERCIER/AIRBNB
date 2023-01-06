@@ -1,4 +1,3 @@
-import React from "react";
 import { TextInput, StyleSheet } from "react-native";
 
 const LargeInput = ({ text, setFunction, value, placeholder }) => {

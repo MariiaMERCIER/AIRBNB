@@ -1,16 +1,11 @@
-import axios from "axios";
 import { useEffect, useState, useRef } from "react";
-import {
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  TextInput,
-  StyleSheet,
-} from "react-native";
+import { Image, TouchableOpacity, View, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 import * as ImagePicker from "expo-image-picker";
-import { useNavigation } from "@react-navigation/native";
+
+// Import des composants
 
 import Button from "../components/Button";
 import Input from "../components/Input";
@@ -44,7 +39,7 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
             },
           }
         );
-        // console.log(response.data);
+
         setPhoto(response.data.photo);
         setEmail(response.data.email);
         setUsername(response.data.username);

@@ -1,15 +1,12 @@
 import { useNavigation } from "@react-navigation/core";
 import { useState } from "react";
+
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import axios from "axios";
-import {
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+// Imports des composants
 
 import Logo from "../components/Logo";
 import Button from "../components/Button";

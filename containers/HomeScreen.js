@@ -1,8 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-
 import {
-  Button,
   Text,
   View,
   ActivityIndicator,
@@ -13,9 +10,10 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-
-import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
+
+import axios from "axios";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -30,7 +28,6 @@ export default function HomeScreen() {
         );
         setData(response.data);
         setIsLoading(false);
-        // console.log(response.data);
       } catch (error) {
         console.log("rooms >>", error.message);
       }

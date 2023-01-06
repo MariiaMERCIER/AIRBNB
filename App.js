@@ -18,7 +18,6 @@ import LocalScreen from "./containers/LocalScreen";
 import RoomScreen from "./containers/RoomScreen";
 
 import Logo from "./components/Logo";
-import { View, Text } from "react-native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -43,13 +42,10 @@ export default function App() {
   };
 
   useEffect(() => {
-    // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
-      // We should also handle error for production apps
       const userToken = await AsyncStorage.getItem("userToken");
       const userId = await AsyncStorage.getItem("userId");
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
+
       setUserId(userId);
       setUserToken(userToken);
       setIsLoading(false);
@@ -59,7 +55,6 @@ export default function App() {
   }, []);
 
   if (isLoading === true) {
-    // We haven't finished checking for the token yet
     return null;
   }
 
