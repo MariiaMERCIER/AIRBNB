@@ -26,7 +26,7 @@ export default function SignInScreen({ handleTokenAndId }) {
         setErrorMessage("Fill all fields!");
       } else {
         const response = await axios.post(
-          "https://express-airbnb-api.herokuapp.com/user/log_in",
+          "https://lereacteur-bootcamp-api.herokuapp.com/user/log_in",
           {
             email: email,
             password: password,

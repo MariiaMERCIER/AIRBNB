@@ -46,7 +46,7 @@ export default function LocalScreen() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://express-airbnb-api.herokuapp.com/rooms/around?latitude=${latitude}&longitude=${longitude}`
+          `https://lereacteur-bootcamp-api.herokuapp.com/rooms/around?latitude=${latitude}&longitude=${longitude}`
         );
 
         setData(response.data);

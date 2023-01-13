@@ -33,7 +33,7 @@ export default function SignUpScreen({ handleTokenAndId }) {
     } else {
       try {
         const response = await axios.post(
-          "https://express-airbnb-api.herokuapp.com/user/sign_up",
+          "https://lereacteur-bootcamp-api.herokuapp.com/user/sign_up",
           {
             email: email,
             username: username,
@@ -43,15 +43,16 @@ export default function SignUpScreen({ handleTokenAndId }) {
         );
 
         handleTokenAndId(response.data.token, response.data.id);
-
         alert("Welcome to AirBnb!");
       } catch (error) {
-        // const message = error.response;
-        // if (
-        //   message === "This username already has an account." ||
-        //   message === "This email already has an account "
-        // )
-        setErrorMessage("Email or username have already been used!");
+        console.log(error.message);
+        const message = error.response;
+        if (
+          message === "This username already has an account." ||
+          message === "This email already has an account "
+        ) {
+          setErrorMessage("Email or username have already been used!");
+        }
       }
     }
   };

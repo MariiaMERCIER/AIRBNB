@@ -32,7 +32,7 @@ export default function ProfileScreen({ handleTokenAndId, userId, userToken }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://express-airbnb-api.herokuapp.com/user/${userId}`,
+          `https://lereacteur-bootcamp-api.herokuapp.com/user/${userId}`,
           {
             headers: {
               authorization: `Bearer ${userToken}`,
