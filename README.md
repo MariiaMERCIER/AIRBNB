@@ -21,6 +21,7 @@ Project is create with:
 * Expo
 * React Native
 * Xcode Simulateur (iOS)
+* Axios
 
 Used: 
 
