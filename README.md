@@ -38,7 +38,7 @@ To run this project, install it locally with using
 ```
 $ yarn 
 $ yarn start
-
+```
 
 Screens:
 
